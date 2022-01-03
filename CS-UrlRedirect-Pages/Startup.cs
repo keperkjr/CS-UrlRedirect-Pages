@@ -1,6 +1,9 @@
+using CS_UrlRedirect_Pages.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,9 +16,12 @@ namespace CS_UrlRedirect_Pages
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private string _contentRootPath = "";
+
+        public Startup(IConfiguration configuration, IHostEnvironment env)
         {
             Configuration = configuration;
+            _contentRootPath = env.ContentRootPath;
         }
 
         public IConfiguration Configuration { get; }
@@ -23,7 +29,21 @@ namespace CS_UrlRedirect_Pages
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = UpdateConnectionPath(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddDbContext<DatabaseDBContext>(options => options.UseSqlServer(connection));
+
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
             services.AddRazorPages();
+        }
+
+        private string UpdateConnectionPath(string connection)
+        {
+            if (connection.Contains("%CONTENTROOTPATH%"))
+            {
+                connection = connection.Replace("%CONTENTROOTPATH%", _contentRootPath);
+            }
+            return connection;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
