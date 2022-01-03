@@ -47,5 +47,10 @@ namespace CS_UrlRedirect_Pages.Pages
         {
             await ShowIndex();
         }
+
+        public async Task OnPostAsync()
+        {
+            await Task.Delay(500);
+        }
     }
 }
