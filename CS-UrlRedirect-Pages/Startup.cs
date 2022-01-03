@@ -1,4 +1,5 @@
 using CS_UrlRedirect_Pages.Data;
+using CS_UrlRedirect_Pages.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,8 @@ namespace CS_UrlRedirect_Pages
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IRedirectService, RedirectService>();
+
             string connection = UpdateConnectionPath(Configuration.GetConnectionString("DefaultConnection"));
             services.AddDbContext<DatabaseDBContext>(options => options.UseSqlServer(connection));
 

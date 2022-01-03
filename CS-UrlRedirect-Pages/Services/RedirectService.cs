@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CS_UrlRedirect.Data;
-using CS_UrlRedirect.Models;
+using CS_UrlRedirect_Pages.Data;
+using CS_UrlRedirect_Pages.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
-namespace CS_UrlRedirect.Services
+namespace CS_UrlRedirect_Pages.Services
 {
     public class RedirectService : IRedirectService
     {

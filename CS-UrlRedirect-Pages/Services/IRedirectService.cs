@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CS_UrlRedirect.Models;
+using CS_UrlRedirect_Pages.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace CS_UrlRedirect.Services
+namespace CS_UrlRedirect_Pages.Services
 {
     public interface IRedirectService
     {
