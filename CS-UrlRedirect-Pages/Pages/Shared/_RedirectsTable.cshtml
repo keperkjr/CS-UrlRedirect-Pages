@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CS_UrlRedirect.Models.Redirect>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumVisits)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShortCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Url)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumVisits)
+                    </td>
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">
+                            <input type="submit" value="📝 Edit" class="btn btn-primary" />
+                        </a>*@
+
+                        <input type="submit" value="📝 Edit" class="cancel btn btn-primary" 
+                            onclick="location.href='@Url.Action(nameof(CS_UrlRedirect.Controllers.HomeController.Edit), new { id = item.Id })'"       
+                        />
+
+                        <form asp-action="Delete" style="display: inline-block;">
+                            <input type="hidden" asp-for="@item.Id" id="delete-table-item-@item.Id" />
+                            <input type="submit" value="🗑️ Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete code \'@item.ShortCode\'?')" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

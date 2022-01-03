@@ -1,0 +1,69 @@
+﻿@model CS_UrlRedirect.Models.RedirectViewModel
+@*
+    data-ajax-confirm="Are you sure you want to do this?"
+*@
+<form asp-action="Create"
+      data-ajax="true" data-ajax-success="onSuccess" data-ajax-failure="onFailure"
+      data-ajax-complete="onComplete"
+      data-ajax-url="@Url.Action(nameof(CS_UrlRedirect.Controllers.HomeController.Create))"
+    >
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="action" type="hidden" />
+    <input asp-for="Id" type="hidden" />
+    <div class="form-group">
+        <label asp-for="ShortCode" class="control-label"></label>
+        <input asp-for="ShortCode" class="form-control" autocomplete="off" />
+        <span asp-validation-for="ShortCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Url" class="control-label"></label>
+        <input asp-for="Url" class="form-control" autocomplete="off" />
+        <span asp-validation-for="Url" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        @if (Model.action == CS_UrlRedirect.Models.RedirectViewModel.Action.Update)
+        {
+            <input type="submit" value="❌ Cancel" formnovalidate class="cancel btn btn-secondary" 
+                onclick="location.href='@Url.Action(nameof(CS_UrlRedirect.Controllers.HomeController.Index))'"       
+            />
+        }
+        <input type="submit" value="@(Model.action == CS_UrlRedirect.Models.RedirectViewModel.Action.Create ?
+                                                 "➕ Add" : "💾 Update")" class="btn btn-primary" />
+    </div>
+</form>
+
+
+<script>
+    let $formContainer = $('#redirect-form-container');
+
+    function onSuccess(result) {
+        //alert('success');
+
+        if (result.redirectTo) {
+            // The operation was a success on the server as it returned
+            // a JSON object with an url property pointing to the location
+            // you would like to redirect to => now use the window.location.href
+            // property to redirect the client to this location
+            //alert('Redirecting');
+            window.location.href = result.redirectTo;
+        } else {
+            // The server returned a partial view => let's refresh
+            // the corresponding section of our DOM with it
+            //alert('Reloading');
+            $formContainer.html(result);
+        }
+    }
+    function onFailure(xhr) {
+        //alert('fail');
+        //console.log(xhr);
+    }
+    function onComplete(xhr) {
+        //alert('complete');
+        //console.log(xhr);
+        //$formContainer.html(xhr.responseText);
+    };
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
