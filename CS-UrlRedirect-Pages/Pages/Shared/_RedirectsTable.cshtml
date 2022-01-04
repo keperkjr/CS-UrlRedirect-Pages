@@ -1,5 +1,6 @@
 ﻿@using CS_UrlRedirect_Pages;
-@model IEnumerable<Models.Redirect>
+@using CS_UrlRedirect_Pages.Models; 
+@model RedirectsTableViewModel
 
 @{
     var routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
@@ -11,26 +12,29 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.redirects[0].Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShortCode)
+                @Html.DisplayNameFor(model => model.redirects[0].ShortCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Url)
+                @Html.DisplayNameFor(model => model.redirects[0].Url)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumVisits)
+                @Html.DisplayNameFor(model => model.redirects[0].NumVisits)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model != null)
+        @if (Model != null && Model.redirects != null)
         {
-            @foreach (var item in Model)
+            @foreach (var item in Model.redirects)
             {
-                <tr>
+                var highlight = Model.highlightId == item.Id;
+                var cssClass = highlight ? "highlight" : "";
+
+                <tr class="@cssClass">
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
@@ -49,7 +53,8 @@
 
                         <form asp-page="Delete" style="display: inline-block;">
                             <input type="hidden" name="@nameof(item.Id)" value="@item.Id" />
-                            @if (!currentUrl.EndsWith($"/{item.Id}") && !currentUrl.Contains($"/{item.Id}/")) { 
+                            @if (!currentUrl.EndsWith($"/{item.Id}") && !currentUrl.Contains($"/{item.Id}/"))
+                            {
                                 <input type="hidden" name="redirectTo" value="@currentUrl" />
                             }
                             <input type="submit" value="🗑️ Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete code \'@item.ShortCode\'?')" />

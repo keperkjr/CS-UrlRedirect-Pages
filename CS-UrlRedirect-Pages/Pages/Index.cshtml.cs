@@ -20,8 +20,8 @@ namespace CS_UrlRedirect_Pages.Pages
         private readonly DatabaseDBContext _context;
         private readonly IRedirectService _redirectService;
 
-        public IEnumerable<CS_UrlRedirect_Pages.Models.Redirect> redirects { get; set; }
-        public CS_UrlRedirect_Pages.Models.RedirectViewModel redirect { get; set; }
+        public RedirectsTableViewModel redirectsTableVM { get; set; } = new RedirectsTableViewModel();
+        public CS_UrlRedirect_Pages.Models.RedirectViewModel redirectVM { get; set; } = new RedirectViewModel();
 
         public IndexModel(ILogger<IndexModel> logger, DatabaseDBContext context, IRedirectService redirectService)
         {
@@ -33,8 +33,8 @@ namespace CS_UrlRedirect_Pages.Pages
         {
             if (string.IsNullOrEmpty(code))
             {
-                redirects = await _context.Redirects.ToListAsync();
-                redirect = new RedirectViewModel();
+                redirectsTableVM.redirects = await _context.Redirects.ToListAsync();
+                redirectVM = new RedirectViewModel();
 
                 return Page();
             }

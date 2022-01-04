@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace CS_UrlRedirect_Pages.Models
 {
+    public class RedirectsTableViewModel
+    {
+        public IList<Models.Redirect> redirects { get; set; }
+        public int highlightId { get; set; }
+    }
+
     public class RedirectViewModel
     {
         public enum Action
