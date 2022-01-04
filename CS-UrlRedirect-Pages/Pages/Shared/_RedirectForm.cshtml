@@ -40,11 +40,12 @@
 
 <script>
     var formValidation = formValidation || {};
+    let parentContainerSelector = '#redirect-form-container';
     (function (ns) {
         if (ns.init) {
             return;
         }
-        ns.$container = $('#redirect-form-container');
+        ns.$container = $(parentContainerSelector);
 
         ns.onSuccess = function (result) {
             //alert('success');

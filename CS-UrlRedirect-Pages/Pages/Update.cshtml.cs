@@ -39,8 +39,7 @@ namespace CS_UrlRedirect_Pages.Pages
             }
 
             redirects = await _context.Redirects.ToListAsync();
-            redirect = new RedirectViewModel();
-            var redirectDB = await _redirectService.GetAsync(id);
+            var redirectDB = redirects.First((x) => x.Id == id);
             var redirectVM = new RedirectViewModel(RedirectViewModel.Action.Update);
             redirectDB.CopyPropsTo(ref redirectVM);
             redirect = redirectVM;
