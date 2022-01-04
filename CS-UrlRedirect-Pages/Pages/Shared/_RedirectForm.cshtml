@@ -4,8 +4,8 @@
     data-ajax-confirm="Are you sure you want to do this?"
 *@
 <form asp-page="/" asp-page-handler="Create"
-      data-ajax="true" data-ajax-success="onSuccess" data-ajax-failure="onFailure"
-      data-ajax-complete="onComplete"
+      data-ajax="true" data-ajax-success="formValidation.onSuccess" data-ajax-failure="formValidation.onFailure"
+      data-ajax-complete="formValidation.onComplete"
       data-ajax-url="@Url.Page("Index", "Create")"
     >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -35,9 +35,10 @@
 
 
 <script>
-    let $formContainer = $('#redirect-form-container');
+    var formValidation = formValidation || {};
+    formValidation.$formContainer = $('#redirect-form-container');
 
-    function onSuccess(result) {
+    formValidation.onSuccess = function(result) {
         //alert('success');
 
         if (result.redirectTo) {
@@ -51,17 +52,18 @@
             // The server returned a partial view => let's refresh
             // the corresponding section of our DOM with it
             //alert('Reloading');
-            $formContainer.html(result);
+            //console.log(result);
+            formValidation.$formContainer.html(result);
         }
     }
-    function onFailure(xhr) {
+    formValidation.onFailure = function (xhr) {
         //alert('fail');
         //console.log(xhr);
     }
-    function onComplete(xhr) {
+    formValidation.onComplete = function(xhr) {
         //alert('complete');
         //console.log(xhr);
-        //$formContainer.html(xhr.responseText);
+        //formValidation.$formContainer.html(xhr.responseText);
     };
 </script>
 
