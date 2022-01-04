@@ -49,6 +49,17 @@ namespace CS_UrlRedirect_Pages.Pages
             await ShowIndex();
         }
 
+        // GET: /Edit/5
+        public async Task<IActionResult> OnGetEditAsync(int id)
+        {
+            if (!await _redirectService.ExistsAsync(id))
+            {
+                return NotFound();
+            }
+            await ShowIndex(id);
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostCreateAsync([Bind("Id,ShortCode,Url,action")] RedirectViewModel redirectVM)
         {
             if (string.IsNullOrWhiteSpace(redirectVM.ShortCode))
@@ -99,7 +110,7 @@ namespace CS_UrlRedirect_Pages.Pages
                         }
                         break;
                 }
-                return new JsonResult(new { redirectTo = Url.Action(nameof(Index)) });
+                return new JsonResult(new { redirectTo = Url.Page(nameof(Index)) });
             }
             else
             {

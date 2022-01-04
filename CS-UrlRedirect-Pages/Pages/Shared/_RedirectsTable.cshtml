@@ -1,4 +1,4 @@
-﻿@using CS_UrlRedirect_Pages; 
+﻿@using CS_UrlRedirect_Pages;
 @model IEnumerable<Models.Redirect>
 
 <table class="table">
@@ -38,9 +38,8 @@
                         @Html.DisplayFor(modelItem => item.NumVisits)
                     </td>
                     <td>
-                        @*<input type="submit" value="📝 Edit" class="cancel btn btn-primary" 
-                            onclick="location.href='@Url.Action(nameof(CS_UrlRedirect.Controllers.HomeController.Edit), new { id = item.Id })'"       
-                        />*@
+                        <input type="submit" value="📝 Edit" class="cancel btn btn-primary"
+                               onclick="location.href='@Url.Page("Index", "Edit",  new { id = item.Id })'" />
 
                         <form asp-action="Delete" style="display: inline-block;">
                             <input type="hidden" asp-for="@item.Id" id="delete-table-item-@item.Id" />
