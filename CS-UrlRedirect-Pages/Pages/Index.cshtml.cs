@@ -45,9 +45,29 @@ namespace CS_UrlRedirect_Pages.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string code = null)
         {
-            return await ShowIndex();
+            if (string.IsNullOrEmpty(code))
+            {
+                return await ShowIndex();
+            }
+            return await DoRedirect(code);
+        }
+
+        // GET: /mpn
+        public async Task<IActionResult> DoRedirect(string code)
+        {
+            var redirect = await _redirectService.MarkAsVisitedAsync(code);
+            if (redirect == null)
+            {
+                return NotFound();
+            }
+            var destination = redirect.Url;
+            if (!destination.StartsWith("http://"))
+            {
+                destination = $"http://{redirect.Url}";
+            }
+            return new RedirectResult(destination, false);
         }
 
         // GET: /Edit/5
@@ -60,6 +80,7 @@ namespace CS_UrlRedirect_Pages.Pages
             return await ShowIndex(id);
         }
 
+        // POST: /Create/
         public async Task<IActionResult> OnPostCreateAsync([Bind("Id,ShortCode,Url,action")] RedirectViewModel redirectVM)
         {
             if (string.IsNullOrWhiteSpace(redirectVM.ShortCode))
