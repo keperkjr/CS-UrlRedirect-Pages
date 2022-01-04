@@ -30,7 +30,7 @@ namespace CS_UrlRedirect_Pages.Pages
             _redirectService = redirectService;
         }
 
-        // GET: /1
+        // GET: /Update/1
         public async Task<IActionResult> OnGetAsync(int id)
         {
             if (!await _redirectService.ExistsAsync(id))
