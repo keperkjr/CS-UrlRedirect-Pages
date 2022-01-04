@@ -29,10 +29,19 @@ namespace CS_UrlRedirect_Pages.Pages
         }
 
         // POST: /Delete/5
-        public async Task<IActionResult> OnPostAsync(int id)
+        public async Task<IActionResult> OnPostAsync(int id, string redirect = "")
         {
+            if (!await _redirectService.ExistsAsync(id))
+            {
+                return NotFound();
+            }
+
             await _redirectService.DeleteAsync(id);
-            return RedirectToPage("Index");
+            if (string.IsNullOrWhiteSpace(redirect))
+            {
+                return RedirectToPage("Index");
+            }
+            return new RedirectResult(redirect, false);
         }
     }
 }

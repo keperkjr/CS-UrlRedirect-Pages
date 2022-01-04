@@ -1,13 +1,18 @@
-﻿@using CS_UrlRedirect_Pages; 
+﻿@using CS_UrlRedirect_Pages;
 @model CS_UrlRedirect_Pages.Models.RedirectViewModel
 @*
     data-ajax-confirm="Are you sure you want to do this?"
 *@
+
+<h4>
+    @(Model.action == Models.RedirectViewModel.Action.Create ?
+                                                 "Add" : "Update") Redirect
+</h4>
+
 <form asp-page="Save"
       data-ajax="true" data-ajax-success="formValidation.onSuccess" data-ajax-failure="formValidation.onFailure"
       data-ajax-complete="formValidation.onComplete"
-      data-ajax-url="@Url.Page("Save")"
-    >
+      data-ajax-url="@Url.Page("Save")">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input asp-for="action" type="hidden" />
     <input asp-for="Id" type="hidden" />
@@ -24,12 +29,11 @@
     <div class="form-group">
         @if (Model.action == Models.RedirectViewModel.Action.Update)
         {
-            <input type="submit" value="❌ Cancel" formnovalidate class="cancel btn btn-secondary" 
-                onclick="location.href='@Url.Page("Index")'"       
-            />
+            <input type="submit" value="❌ Cancel" formnovalidate class="cancel btn btn-secondary"
+                   onclick="location.href='@Url.Page("Index")'" />
         }
         <input type="submit" value="@(Model.action == Models.RedirectViewModel.Action.Create ?
-                                                 "➕ Add" : "💾 Update")" class="btn btn-primary" />
+                                                 "➕ Add" : "💾 Update") Redirect" class="btn btn-primary" />
     </div>
 </form>
 

@@ -29,27 +29,14 @@ namespace CS_UrlRedirect_Pages.Pages
             _context = context;
             _redirectService = redirectService;
         }
-
-        private async Task<IActionResult> ShowIndex(int? id = null)
-        {
-            redirects = await _context.Redirects.ToListAsync();
-            redirect = new RedirectViewModel();
-
-            if (id.HasValue)
-            {
-                var redirectDB = await _redirectService.GetAsync(id.Value);
-                var redirectVM = new RedirectViewModel(RedirectViewModel.Action.Update);
-                redirectDB.CopyPropsTo(ref redirectVM);
-                redirect = redirectVM;
-            }
-            return Page();
-        }
-
         public async Task<IActionResult> OnGetAsync(string code = null)
         {
             if (string.IsNullOrEmpty(code))
             {
-                return await ShowIndex();
+                redirects = await _context.Redirects.ToListAsync();
+                redirect = new RedirectViewModel();
+
+                return Page();
             }
             return await DoRedirect(code);
         }
@@ -68,16 +55,6 @@ namespace CS_UrlRedirect_Pages.Pages
                 destination = $"http://{redirect.Url}";
             }
             return new RedirectResult(destination, false);
-        }
-
-        // GET: /Edit/5
-        public async Task<IActionResult> OnGetEditAsync(int id)
-        {
-            if (!await _redirectService.ExistsAsync(id))
-            {
-                return NotFound();
-            }
-            return await ShowIndex(id);
         }
     }
 }
