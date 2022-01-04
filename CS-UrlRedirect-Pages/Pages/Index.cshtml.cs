@@ -30,7 +30,7 @@ namespace CS_UrlRedirect_Pages.Pages
             _redirectService = redirectService;
         }
 
-        private async Task ShowIndex(int? id = null)
+        private async Task<IActionResult> ShowIndex(int? id = null)
         {
             redirects = await _context.Redirects.ToListAsync();
             redirect = new RedirectViewModel();
@@ -42,11 +42,12 @@ namespace CS_UrlRedirect_Pages.Pages
                 redirectDB.CopyPropsTo(ref redirectVM);
                 redirect = redirectVM;
             }
+            return Page();
         }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            await ShowIndex();
+            return await ShowIndex();
         }
 
         // GET: /Edit/5
@@ -56,8 +57,7 @@ namespace CS_UrlRedirect_Pages.Pages
             {
                 return NotFound();
             }
-            await ShowIndex(id);
-            return Page();
+            return await ShowIndex(id);
         }
 
         public async Task<IActionResult> OnPostCreateAsync([Bind("Id,ShortCode,Url,action")] RedirectViewModel redirectVM)
@@ -135,6 +135,13 @@ namespace CS_UrlRedirect_Pages.Pages
         public async Task UpdateEntry(RedirectViewModel redirectVM)
         {
             await _redirectService.UpdateAsync(redirectVM.Id, redirectVM);
+        }
+
+        // POST: /Delete/5
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            await _redirectService.DeleteAsync(id);
+            return RedirectToPage("Index");
         }
     }
 }
