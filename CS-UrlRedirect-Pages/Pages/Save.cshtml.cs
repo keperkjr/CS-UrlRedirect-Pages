@@ -33,7 +33,7 @@ namespace CS_UrlRedirect_Pages.Pages
         }
 
         // POST: /Save/
-        public async Task<IActionResult> OnPostAsync([Bind("Id,ShortCode,Url,action")] RedirectViewModel redirectVM)
+        public async Task<IActionResult> OnPostAsync([Bind("Id,ShortCode,Url,action")] RedirectViewModel redirectVM, string redirectTo = "")
         {
             if (string.IsNullOrWhiteSpace(redirectVM.ShortCode))
             {
@@ -42,9 +42,9 @@ namespace CS_UrlRedirect_Pages.Pages
             else
             {
                 redirectVM.ShortCode = redirectVM.ShortCode.Trim();
-                if (redirectVM.action == RedirectViewModel.Action.Create && await _redirectService.ExistsAsync(redirectVM.ShortCode))
+                if (await _redirectService.ExistsAsync(redirectVM.ShortCode) && (await _redirectService.GetAsync(redirectVM.ShortCode)).Id != redirectVM.Id)
                 {
-                    ModelState.AddModelError(nameof(redirectVM.ShortCode), "The following short code is unavailable and cannot be used");
+                    ModelState.AddModelError(nameof(redirectVM.ShortCode), "The following short code already exists on another entry and cannot be used");
                 }
             }
 
@@ -83,7 +83,7 @@ namespace CS_UrlRedirect_Pages.Pages
                         }
                         break;
                 }
-                return new JsonResult(new { redirectTo = Url.Page(nameof(Index)) });
+                return new JsonResult(new { redirectTo = string.IsNullOrWhiteSpace(redirectTo) ? Url.Page("Index") : redirectTo });
             }
             else
             {

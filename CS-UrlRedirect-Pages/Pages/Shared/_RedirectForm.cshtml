@@ -4,15 +4,20 @@
     data-ajax-confirm="Are you sure you want to do this?"
 *@
 
+@{
+    var redirectTo = Url.Page("Index");
+}
+
 <h4>
     @(Model.action == Models.RedirectViewModel.Action.Create ?
                                                  "Add" : "Update") Redirect
 </h4>
 
-<form asp-page="Save"
-      data-ajax="true" data-ajax-success="formValidation.onSuccess" data-ajax-failure="formValidation.onFailure"
-      data-ajax-complete="formValidation.onComplete"
-      data-ajax-url="@Url.Page("Save")">
+<form asp-page="Save" asp-route-redirectTo="@redirectTo"
+      data-ajax="true" data-ajax-success="formValidationHandler.onSuccess" data-ajax-failure="formValidationHandler.onFailure"
+      data-ajax-complete="formValidationHandler.onComplete"
+      data-ajax-url="@Url.Page("Save", new { redirectTo = redirectTo })"
+    >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input asp-for="action" type="hidden" />
     <input asp-for="Id" type="hidden" />
@@ -39,43 +44,14 @@
 
 
 <script>
-    var formValidation = formValidation || {};
-    let parentContainerSelector = '#redirect-form-container';
-    (function (ns) {
-        if (ns.init) {
-            return;
-        }
-        ns.$container = $(parentContainerSelector);
-
-        ns.onSuccess = function (result) {
-            //alert('success');
-
-            if (result.redirectTo) {
-                // The operation was a success on the server as it returned
-                // a JSON object with an url property pointing to the location
-                // you would like to redirect to => now use the window.location.href
-                // property to redirect the client to this location
-                //alert('Redirecting');
-                window.location.href = result.redirectTo;
-            } else {
-                // The server returned a partial view => let's refresh
-                // the corresponding section of our DOM with it
-                //alert('Reloading');
-                //console.log(result);
-                ns.$container.html(result);
-            }
-        }
-        ns.onFailure = function (xhr) {
-            //alert('fail');
-            //console.log(xhr);
-        }
-        ns.onComplete = function (xhr) {
-            //alert('complete');
-            //console.log(xhr);
-            //ns.$container.html(xhr.responseText);
+    var formValidationHandler = formValidationHandler;
+    if (!formValidationHandler) {
+        formValidationHandler = UnobtrusiveAjaxHandler.getNew('#redirect-form-container');
+        formValidationHandler.onFailure = (xhr) => {
+            console.log(xhr);
+            alert('An error occurred. Please try again!');
         };
-        ns.init = true;
-    })(formValidation);
+    }
 </script>
 
 @section Scripts {

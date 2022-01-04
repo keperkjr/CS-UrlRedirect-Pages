@@ -50,7 +50,7 @@
                         <form asp-page="Delete" style="display: inline-block;">
                             <input type="hidden" name="@nameof(item.Id)" value="@item.Id" />
                             @if (!currentUrl.EndsWith($"/{item.Id}") && !currentUrl.Contains($"/{item.Id}/")) { 
-                                <input type="hidden" name="redirect" value="@currentUrl" />
+                                <input type="hidden" name="redirectTo" value="@currentUrl" />
                             }
                             <input type="submit" value="🗑️ Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete code \'@item.ShortCode\'?')" />
                         </form>
