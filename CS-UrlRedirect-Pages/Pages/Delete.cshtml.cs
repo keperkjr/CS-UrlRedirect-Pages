@@ -12,11 +12,11 @@ namespace CS_UrlRedirect_Pages.Pages
 {
     public class DeleteModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<DeleteModel> _logger;
         private readonly DatabaseDBContext _context;
         private readonly IRedirectService _redirectService;
 
-        public DeleteModel(ILogger<IndexModel> logger, DatabaseDBContext context, IRedirectService redirectService)
+        public DeleteModel(ILogger<DeleteModel> logger, DatabaseDBContext context, IRedirectService redirectService)
         {
             _logger = logger;
             _context = context;
@@ -25,7 +25,7 @@ namespace CS_UrlRedirect_Pages.Pages
 
         public IActionResult OnGet()
         {
-            return RedirectToPage("Index");
+            return NotFound();
         }
 
         // POST: /Delete/5

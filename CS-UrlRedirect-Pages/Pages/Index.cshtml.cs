@@ -29,9 +29,11 @@ namespace CS_UrlRedirect_Pages.Pages
             _context = context;
             _redirectService = redirectService;
         }
+
+        // GET: /mpn
         public async Task<IActionResult> OnGetAsync(string code = null)
         {
-            if (string.IsNullOrEmpty(code))
+            if (string.IsNullOrWhiteSpace(code))
             {
                 redirectsTableVM.redirects = await _context.Redirects.ToListAsync();
                 redirectVM = new RedirectViewModel();
@@ -40,8 +42,7 @@ namespace CS_UrlRedirect_Pages.Pages
             }
             return await DoRedirect(code);
         }
-
-        // GET: /mpn
+        
         public async Task<IActionResult> DoRedirect(string code)
         {
             var redirect = await _redirectService.MarkAsVisitedAsync(code);
@@ -50,7 +51,7 @@ namespace CS_UrlRedirect_Pages.Pages
                 return NotFound();
             }
             var destination = redirect.Url;
-            if (!destination.StartsWith("http://"))
+            if (!destination.StartsWith("http://") && !destination.StartsWith("https://"))
             {
                 destination = $"http://{redirect.Url}";
             }

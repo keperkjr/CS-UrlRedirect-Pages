@@ -21,9 +21,9 @@ namespace CS_UrlRedirect_Pages.Services
             return await _context.Redirects.AnyAsync(e => e.Id == Id);
         }
 
-        public async Task<bool> ExistsAsync(string shortCode)
+        public async Task<bool> ExistsAsync(string code)
         {
-            return await _context.Redirects.AnyAsync(e => e.ShortCode == shortCode);
+            return await _context.Redirects.AnyAsync(e => e.ShortCode == code);
         }
 
         public async Task<Redirect> GetAsync(int id)

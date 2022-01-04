@@ -16,14 +16,14 @@ namespace CS_UrlRedirect_Pages.Pages
 {
     public class UpdateModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<UpdateModel> _logger;
         private readonly DatabaseDBContext _context;
         private readonly IRedirectService _redirectService;
 
         public RedirectsTableViewModel redirectsTableVM { get; set; } = new RedirectsTableViewModel();
         public CS_UrlRedirect_Pages.Models.RedirectViewModel redirectVM { get; set; } = new RedirectViewModel();
 
-        public UpdateModel(ILogger<IndexModel> logger, DatabaseDBContext context, IRedirectService redirectService)
+        public UpdateModel(ILogger<UpdateModel> logger, DatabaseDBContext context, IRedirectService redirectService)
         {
             _logger = logger;
             _context = context;

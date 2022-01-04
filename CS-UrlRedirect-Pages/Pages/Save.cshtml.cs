@@ -16,11 +16,11 @@ namespace CS_UrlRedirect_Pages.Pages
 {
     public class SaveModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<SaveModel> _logger;
         private readonly DatabaseDBContext _context;
         private readonly IRedirectService _redirectService;
 
-        public SaveModel(ILogger<IndexModel> logger, DatabaseDBContext context, IRedirectService redirectService)
+        public SaveModel(ILogger<SaveModel> logger, DatabaseDBContext context, IRedirectService redirectService)
         {
             _logger = logger;
             _context = context;
@@ -29,7 +29,7 @@ namespace CS_UrlRedirect_Pages.Pages
 
         public IActionResult OnGet()
         {
-            return RedirectToPage("Index");
+            return NotFound();
         }
 
         // POST: /Save/
