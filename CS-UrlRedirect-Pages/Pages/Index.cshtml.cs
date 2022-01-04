@@ -157,12 +157,5 @@ namespace CS_UrlRedirect_Pages.Pages
         {
             await _redirectService.UpdateAsync(redirectVM.Id, redirectVM);
         }
-
-        // POST: /Delete/5
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
-        {
-            await _redirectService.DeleteAsync(id);
-            return RedirectToPage("Index");
-        }
     }
 }
