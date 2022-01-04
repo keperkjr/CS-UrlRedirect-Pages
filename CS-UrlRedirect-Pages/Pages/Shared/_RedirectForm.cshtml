@@ -3,10 +3,10 @@
 @*
     data-ajax-confirm="Are you sure you want to do this?"
 *@
-<form asp-page="Index" asp-page-handler="Create"
+<form asp-page="Save"
       data-ajax="true" data-ajax-success="formValidation.onSuccess" data-ajax-failure="formValidation.onFailure"
       data-ajax-complete="formValidation.onComplete"
-      data-ajax-url="@Url.Page("Index", "Create")"
+      data-ajax-url="@Url.Page("Save")"
     >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input asp-for="action" type="hidden" />
