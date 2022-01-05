@@ -39,7 +39,7 @@ namespace CS_UrlRedirect_Pages.Pages
                 redirectVM = new RedirectViewModel();
 
                 return Page();
-            }
+            }            
             return await DoRedirect(code);
         }
         
@@ -55,6 +55,7 @@ namespace CS_UrlRedirect_Pages.Pages
             {
                 destination = $"http://{redirect.Url}";
             }
+            _logger.Log(LogLevel.Information, $"Redirecting to url: {destination}, code: {code}");
             return new RedirectResult(destination, false);
         }
     }
